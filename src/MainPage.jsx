@@ -19,7 +19,7 @@ const MainPage = () => {
 
     return (
         <div>
-            <h1>Main Page Content:</h1>
+            <h1>All Articles</h1>
             <div>
                 <table>
                     <thead>

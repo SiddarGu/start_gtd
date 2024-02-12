@@ -18,6 +18,9 @@ const ArticlePage = () => {
 
     if (!article) return <div>Loading...</div>;
 
+    // remove html tags and replace <br> with new line; also remove extra new lines
+    const content = article.display_version.replace(/<html>|<\/html>|<body>|<\/body>/g, "").replace(/<br\s*\/?>/g, "\n").replace(/\n{2,}/g, "\n");
+
     return (
         <div>
             <h1>{article.title}</h1>
@@ -33,7 +36,7 @@ const ArticlePage = () => {
             {/* Separator */}
             <hr />
             {/* Display the article content here */}
-            <div dangerouslySetInnerHTML={{ __html: article.display_version }}></div>
+            <div dangerouslySetInnerHTML={{ __html: content }}></div>
         </div>
     );
 };
