@@ -22,7 +22,7 @@ const ArticlePage = () => {
     const content = article.display_version.replace(/<html>|<\/html>|<body>|<\/body>/g, "").replace(/<br\s*\/?>/g, "\n").replace(/\n{2,}/g, "\n");
 
     return (
-        <div>
+        <div className="mainContainer">
             <h1>{article.title}</h1>
             {/* Display other article details here */}
             <div>

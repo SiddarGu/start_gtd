@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './App.css';
 
 const SecondPage = () => {
   const [response, setResponse] = useState('');
@@ -15,7 +16,7 @@ const SecondPage = () => {
   };
 
   return (
-    <div>
+    <div className="mainContainer">
       Second Page Content
       <div>
         <button onClick={handlePost}>Send Data to Flask</button>

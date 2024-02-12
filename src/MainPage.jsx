@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import './App.css';
 
 const MainPage = () => {
     const [data, setData] = useState([]);
@@ -18,7 +19,7 @@ const MainPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className="mainContainer">
             <h1>All Articles</h1>
             <div>
                 <table>
