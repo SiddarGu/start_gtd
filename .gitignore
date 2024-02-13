@@ -24,3 +24,5 @@ yarn-error.log*
 
 # ignoring pycache
 __pycache__/
+
+test.py

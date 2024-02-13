@@ -10,7 +10,6 @@ const MainPage = () => {
         axios
             .get("http://localhost:5000/getdata")
             .then((response) => {
-                console.log(response.data);
                 setData(response.data);
             })
             .catch((error) =>
@@ -19,7 +18,7 @@ const MainPage = () => {
     }, []);
 
     return (
-        <div className="mainContainer">
+        <div className="container">
             <h1>All Articles</h1>
             <div>
                 <table>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import SearchAndInputComponent from "./editable";
 
 const ArticlePage = () => {
     const [article, setArticle] = useState(null);
@@ -23,6 +24,7 @@ const ArticlePage = () => {
 
     return (
         <div className="mainContainer">
+            <div className="left-column">
             <h1>{article.title}</h1>
             {/* Display other article details here */}
             <div>
@@ -37,6 +39,10 @@ const ArticlePage = () => {
             <hr />
             {/* Display the article content here */}
             <div dangerouslySetInnerHTML={{ __html: content }}></div>
+            </div>
+            <div className="right-column">
+            <SearchAndInputComponent articleId={article_id} />
+            </div>
         </div>
     );
 };

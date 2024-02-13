@@ -43,4 +43,17 @@ table, th, td {
 
 .mainContainer {
   margin: 20px;
+  display: flex;
+}
+
+.left-column {
+  width: 80%;
+}
+
+.right-column {
+  width: 20%; /* Makes the right column take up 20% of the space */
+}
+
+.container {
+  margin: 20px;
 }
