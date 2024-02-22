@@ -36,7 +36,6 @@ def get_article(article_id):
 # update an article
 @app.route('/articles/<int:article_id>', methods=['PUT'])
 def update_article(article_id):
-
     article = next((item for item in data if item.get("article_id") == article_id), None)
     if article:
         # update the article

@@ -47,11 +47,12 @@ table, th, td {
 }
 
 .left-column {
-  width: 80%;
+  padding-right: 10%;
+  width: 90%;
 }
 
 .right-column {
-  width: 20%; /* Makes the right column take up 20% of the space */
+  width: 10%;
 }
 
 .container {

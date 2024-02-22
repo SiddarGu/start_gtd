@@ -8,7 +8,6 @@ const SearchAndInputComponent = ({ articleId }) => {
         "imonth",
         "iday",
         "approxdate",
-        "extended",
         "resolution",
         "country",
         "country_txt",
@@ -19,18 +18,11 @@ const SearchAndInputComponent = ({ articleId }) => {
         "latitude",
         "longitude",
         "specificity",
-        "vicinity",
         "location",
         "summary",
-        "crit1",
         "crit2",
-        "crit3",
-        "doubtterr",
         "alternative",
         "alternative_txt",
-        "multiple",
-        "success",
-        "suicide",
         "attacktype1",
         "attacktype1_txt",
         "attacktype2",
@@ -68,19 +60,11 @@ const SearchAndInputComponent = ({ articleId }) => {
         "gname3",
         "gsubname3",
         "motive",
-        "guncertain1",
-        "guncertain2",
-        "guncertain3",
-        "individual",
         "nperps",
-        "nperpcap",
-        "claimed",
         "claimmode",
         "claimmode_txt",
-        "claim2",
         "claimmode2",
         "claimmode2_txt",
-        "claim3",
         "claimmode3",
         "claimmode3_txt",
         "compclaim",
@@ -101,45 +85,59 @@ const SearchAndInputComponent = ({ articleId }) => {
         "weapsubtype4",
         "weapsubtype4_txt",
         "weapdetail",
-        "nkill",
-        "nkillus",
-        "nkillter",
-        "nwound",
-        "nwoundus",
-        "nwoundte",
-        "property",
         "propextent",
         "propextent_txt",
         "propvalue",
         "propcomment",
-        "ishostkid",
         "nhostkid",
-        "nhostkidus",
         "nhours",
         "ndays",
         "divert",
         "kidhijcountry",
-        "ransom",
         "ransomamt",
-        "ransomamtus",
         "ransompaid",
-        "ransompaidus",
         "ransomnote",
         "hostkidoutcome",
         "hostkidoutcome_txt",
-        "nreleased",
         "addnotes",
         "scite1",
         "scite2",
         "scite3",
         "dbsource",
-        "INT_LOG",
-        "INT_IDEO",
-        "INT_MISC",
-        "INT_ANY",
         "related",
-        "last_modified_date",
-        "incident_date",
+        "guncertain3",
+        "claim3",
+        "ransomamtus",
+        "ransompaidus",
+        "guncertain2",
+        "claim2",
+        "crit1",
+        "nreleased",
+        "ransom",
+        "nhostkidus",
+        "success",
+        "crit3",
+        "property",
+        "INT_ANY",
+        "INT_IDEO",
+        "nkill",
+        "nwound",
+        "INT_LOG",
+        "doubtterr",
+        "multiple",
+        "nkillter",
+        "claimed",
+        "nwoundte",
+        "ishostkid",
+        "extended",
+        "INT_MISC",
+        "vicinity",
+        "nperpcap",
+        "guncertain1",
+        "suicide",
+        "individual",
+        "nkillus",
+        "nwoundus",
     ];
     const [article, setArticle] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
@@ -147,14 +145,22 @@ const SearchAndInputComponent = ({ articleId }) => {
     const [isBusy, setBusy] = useState(true);
     const [values, setValues] = useState(null);
 
-
     useEffect(() => {
         axios
             .get(`http://localhost:5000/articles/${articleId}`)
             .then((response) => {
                 setArticle(response.data);
                 setBusy(false);
-                const initialAnnotations = response.data.fully_coded_incident_data;
+                const initialAnnotations =
+                    response.data.fully_coded_incident_data;
+                if (initialAnnotations === undefined) {
+                    let initialAnnotations = {};
+                    fields.forEach((field) => {
+                        initialAnnotations[field] = "";
+                    });
+                    setValues(initialAnnotations);
+                    return;
+                }
                 setValues(initialAnnotations);
             })
             .catch((error) => {
@@ -166,91 +172,193 @@ const SearchAndInputComponent = ({ articleId }) => {
     }, [articleId]);
 
     const updateValue = (key, value) => {
-        setValues(prev => ({ ...prev, [key]: value }));
-      };
+        setValues((prev) => ({ ...prev, [key]: value }));
+    };
 
     // Filter options based on search term
     const filteredOptions = options.filter((option) =>
         option.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    return (
-        isBusy ? <div>Loading...</div> :
-        <div
-            style={{
-                border: "1px solid #ccc",
-                display: "flex",
-                padding: "10px",
-                alignItems: "flex-start",
-                gap: "20px",
-            }}
-        >
-            <div style={{ flex: 1 }}>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ width: "100%" }}
-                />
-                <div
-                    style={{
-                        maxHeight: "200px",
-                        overflowY: "auto",
-                        marginTop: "10px",
+    const clearSearch = () => {
+        setSearchTerm("");
+    };
+
+    const clearSearchButton = () => {
+        if (searchTerm.length > 0) {
+            return (
+                <button
+                    onClick={() => {
+                        clearSearch();
                     }}
                 >
-                    {article && filteredOptions.map((option, index) => (
-                        <div
-                            key={index}
-                            onClick={() => setSearchTerm(option)}
-                            style={{ padding: "5px", cursor: "pointer", border: "1px solid #ccc"}}
-                        >
-                            {option}
-                        </div>
-                    ))}
-                </div>
-            </div>
+                    Clear
+                </button>
+            );
+        }
+        return <div></div>;
+    };
+
+    function fieldToType(field) {
+        // This function is used to determine the type of input to use for each field
+        if (
+            [
+                "eventid",
+                "iyear",
+                "imonth",
+                "iday",
+                "extended",
+                "country",
+                "region",
+                "specificity",
+                "vicinity",
+                "crit1",
+                "crit2",
+                "crit3",
+                "doubtterr",
+                "multiple",
+                "success",
+                "suicide",
+                "attacktype1",
+                "targtype1",
+                "guncertain1",
+                "individual",
+                "nperps",
+                "nperpcap",
+                "claimed",
+                "weaptype1",
+                "nkillus",
+                "nwoundus",
+                "property",
+                "ishostkid",
+                "INT_LOG",
+                "INT_IDEO",
+                "INT_MISC",
+                "INT_ANY",
+            ].includes(field)
+        ) {
+            return "int";
+        }
+
+        return "text";
+    }
+
+    function regionToNumber() {}
+
+    function countryToNumber() {}
+
+    var page = isBusy ? (
+        <div>Loading...</div>
+    ) : (
+        <div style={{
+            border: "1px solid #ccc",
+            padding: "10px",
+        }}>
             <div
                 style={{
-                    width: "1px",
-                    backgroundColor: "#ccc",
-                    height: "100%",
-                    minHeight: "200px",
+                    border: "1px solid #ccc",
+                    display: "flex",
+                    padding: "10px",
+                    alignItems: "flex-start",
+                    gap: "20px",
                 }}
-            ></div>
-            <div style={{ flex: 1 }}>
-                <input
-                    type="text"
-                    placeholder="Enter value..."
-                    value={values[searchTerm] ?? ""}
-                    onChange={(e) => updateValue(searchTerm, e.target.value)}
-                    style={{ width: "100%" }}
-                />
-            </div>
-            { /* save button */}
-                <button
-                    onClick={async () => {
-                        setBusy(true);
-                        let updated_article = Object.assign({}, article);
-                        updated_article.fully_coded_incident_data = values;
-                        
-                        await axios
-                            .put(`http://localhost:5000/articles/${articleId}`, updated_article)
-                            .then((response) => {
-                                console.log("Data saved successfully:", response.data);
-                            })
-                            .catch((error) => {
-                                console.error("There was an error saving the data:", error);
-                            });
+            >
+                <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ width: "100%" }}
+                        />
+                        {clearSearchButton()}
+                    </div>
+                    <div
+                        style={{
+                            maxHeight: "200px",
+                            overflowY: "auto",
+                            marginTop: "10px",
+                        }}
+                    >
+                        {article &&
+                            filteredOptions.map((option, index) => (
+                                <div
+                                    key={index}
+                                    onClick={() => setSearchTerm(option)}
+                                    style={{
+                                        padding: "5px",
+                                        cursor: "pointer",
+                                        border: "1px solid #ccc",
+                                    }}
+                                >
+                                    {option}
+                                </div>
+                            ))}
+                    </div>
+                </div>
 
-                        setBusy(false);
-                    }}
-                >
-                    Save
-                </button>
+                
             </div>
+            {/* save button */}
+            {searchTerm.length > 0 && fieldToType(searchTerm) === "int" ? (
+                    <div style={{ flex: 1 }}>
+                        <input
+                            type="number"
+                            placeholder="Enter value..."
+                            value={values[searchTerm] ?? ""}
+                            onChange={(e) =>
+                                updateValue(searchTerm, e.target.value)
+                            }
+                            style={{ width: "100%" }}
+                        />
+                    </div>
+                ) : (
+                    <div style={{ flex: 1 }}>
+                        <input
+                            type="text"
+                            placeholder="Enter value..."
+                            value={values[searchTerm] ?? ""}
+                            onChange={(e) =>
+                                updateValue(searchTerm, e.target.value)
+                            }
+                            style={{ width: "100%" }}
+                        />
+                    </div>
+                )}
+            <button
+                onClick={async () => {
+                    setBusy(true);
+                    let updated_article = Object.assign({}, article);
+                    updated_article.fully_coded_incident_data = values;
+
+                    await axios
+                        .put(
+                            `http://localhost:5000/articles/${articleId}`,
+                            updated_article
+                        )
+                        .then((response) => {
+                            console.log(
+                                "Data saved successfully:",
+                                response.data
+                            );
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "There was an error saving the data:",
+                                error
+                            );
+                        });
+
+                    setBusy(false);
+                }}
+            >
+                Save
+            </button>
+        </div>
     );
+
+    return page;
 };
 
 export default SearchAndInputComponent;
