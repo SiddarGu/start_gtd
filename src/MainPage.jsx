@@ -8,7 +8,7 @@ const MainPage = () => {
     useEffect(() => {
         // Fetch data from the backend
         axios
-            .get("http://localhost:5000/getdata")
+            .get("http://192.168.1.78:5000/getdata")
             .then((response) => {
                 setData(response.data);
             })
