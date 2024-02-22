@@ -147,7 +147,7 @@ const SearchAndInputComponent = ({ articleId }) => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/articles/${articleId}`)
+            .get(`http://71.255.243.120:5000/articles/${articleId}`)
             .then((response) => {
                 setArticle(response.data);
                 setBusy(false);
