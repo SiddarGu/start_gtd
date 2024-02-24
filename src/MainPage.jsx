@@ -8,6 +8,7 @@ class MainPage extends React.Component {
         super(props);
         this.state = {
             data: [],
+            isLoading: true,
         };
     }
 
@@ -15,23 +16,29 @@ class MainPage extends React.Component {
         axios
             .get("http://71.255.243.120:5000/getdata")
             .then((response) => {
-                this.setState({ data: response.data });
+                this.setState({ data: response.data, isLoading: false });
             })
             .catch((error) => {
                 console.error("Error fetching data: ", error);
+                this.setState({ isLoading: false });
             });
     }
 
     render() {
+        const { isLoading, data } = this.state;
+        if (isLoading) {
+            return <div>Loading...</div>; // Show loading message or spinner
+        }
+
         return (
             <div className="container">
                 <h1>All Articles</h1>
-                <ExpandableBox name="Default Cluster" data={this.state.data}>
-                </ExpandableBox>
-                <ExpandableBox name="Some Other Cluster">
-                </ExpandableBox>
+                <ExpandableBox
+                    name="Default Cluster"
+                    data={this.state.data}
+                ></ExpandableBox>
+                <ExpandableBox name="Some Other Cluster"></ExpandableBox>
 
-                <div></div>
             </div>
         );
     }
