@@ -4,9 +4,11 @@ import MainPage from "./MainPage.jsx"; // Updated import path
 import SecondPage from "./SecondPage.jsx"; // Updated import path
 import ArticlePage from "./ArticlePage.jsx";
 import TopBar from "./TopBar.jsx";
+import ReactDOM from 'react-dom';
 
-function App() {
-  return (
+class App extends React.Component {
+  render() {
+    return (
       <BrowserRouter>
       <TopBar />
       <Routes>
@@ -16,6 +18,7 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
+  } 
 }
 
 export default App;
