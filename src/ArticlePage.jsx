@@ -8,7 +8,7 @@ const ArticlePage = () => {
     const { article_id } = useParams(); // Extract article_id from URL
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/articles/${article_id}`)
+        axios.get(`http://71.255.243.120:5000/articles/${article_id}`)
             .then(response => {
                 setArticle(response.data);
             })

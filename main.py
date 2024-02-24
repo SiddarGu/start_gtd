@@ -4,7 +4,7 @@ from flask_cors import CORS
 import json
 
 app = Flask(__name__)
-CORS(app)  # This enables CORS for all domains on all routes
+CORS(app, origins="*")  # This enables CORS for all domains on all routes
 
 @app.route('/getdata', methods=['GET'])
 def get_data():
@@ -58,4 +58,4 @@ if __name__ == '__main__':
         data = json.load(f)
     f.close()
 
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
