@@ -26,48 +26,9 @@ class MainPage extends React.Component {
         return (
             <div className="container">
                 <h1>All Articles</h1>
-                <ExpandableBox name="Default Cluster">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Article ID</th>
-                                <th>Article Title</th>
-                                <th>Publication Date</th>
-                                <th>Source</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* Generate a vertical column of article_ids */}
-                            {this.state.data.map((article) => (
-                                <tr key={article.article_id}>
-                                    <td>
-                                        <a
-                                            href={`/articles/${article.article_id}`}
-                                        >
-                                            {article.article_id}
-                                        </a>
-                                    </td>
-                                    <td>{article.title}</td>
-                                    <td>{article.publication_date}</td>
-                                    <td>{article.source}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <ExpandableBox name="Default Cluster" data={this.state.data}>
                 </ExpandableBox>
                 <ExpandableBox name="Some Other Cluster">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Article ID</th>
-                                <th>Article Title</th>
-                                <th>Publication Date</th>
-                                <th>Source</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
                 </ExpandableBox>
 
                 <div></div>
