@@ -257,13 +257,11 @@ const SearchAndInputComponent = ({ articleId }) => {
             <div
                 style={{
                     border: "1px solid #ccc",
-                    display: "flex",
                     padding: "10px",
-                    alignItems: "flex-start",
                     gap: "20px",
                 }}
             >
-                <div style={{ flex: 1 }}>
+                <div>
                     <div style={{ display: "flex", flexDirection: "row" }}>
                         <input
                             type="text"
