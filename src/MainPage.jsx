@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 import ExpandableBox from "./components/expandableBox";
+import UsersList from "./components/usersList";
 
 class MainPage extends React.Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class MainPage extends React.Component {
 
         return (
             <div className="container">
+                <UsersList />
                 <h1>All Articles</h1>
                 <ExpandableBox
                     name="Default Cluster"

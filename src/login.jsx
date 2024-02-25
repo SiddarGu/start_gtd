@@ -31,6 +31,13 @@ class Login extends React.Component {
 
       if (response.status === 200) {
         // Assuming the login is successful
+        // Example: response.data might include { isAdmin: true }
+        // You'll need to adjust according to your actual API response
+        const isAdmin = response.data.isAdmin;
+        console.log(response.data);
+        
+        localStorage.setItem("isAdmin", isAdmin ? "true" : "false"); // Store admin status
+
         this.props.onLoginSuccess(); // Call the onLoginSuccess prop passed from Main
       } else {
         // Handle unsuccessful login attempt

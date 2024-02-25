@@ -134,14 +134,16 @@ def login_user():
     if conn is not None:
         cursor = conn.cursor()
         try:
+            # Adjusted query to also select the is_admin field
             cursor.execute(
-                "SELECT password FROM users WHERE username = %s", (username,)
+                "SELECT password, is_admin FROM users WHERE username = %s", (username,)
             )
-            user_password = cursor.fetchone()
-            if user_password and bcrypt.checkpw(
-                password, user_password[0].encode("utf-8")
+            user_data = cursor.fetchone()
+            if user_data and bcrypt.checkpw(
+                password, user_data[0].encode("utf-8")
             ):
-                return jsonify({"message": "Login successful."}), 200
+                # Including isAdmin in the response based on the is_admin field from the database
+                return jsonify({"message": "Login successful.", "isAdmin": bool(user_data[1])}), 200
             else:
                 return jsonify({"error": "Invalid username or password."}), 401
         except Error as e:
