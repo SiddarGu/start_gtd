@@ -1,4 +1,5 @@
 import React from "react";
+import ArticleTable from "./articlesTable";
 
 class ExpandableBox extends React.Component {
     constructor(props) {
@@ -105,45 +106,7 @@ class ExpandableBox extends React.Component {
                     </span>
                 </div>
                 {expanded && (
-                    <>
-                        <input
-                            type="text"
-                            placeholder="Search by ID, Title, or Date"
-                            value={this.state.searchQuery}
-                            onChange={this.handleSearch}
-                            style={{
-                                margin: "10px 0",
-                                padding: "8px",
-                                width: "calc(100% - 16px)",
-                            }}
-                        />
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Article ID</th>
-                                    <th>Article Title</th>
-                                    <th>Publication Date</th>
-                                    <th>Source</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.filteredData().map((article) => (
-                                    <tr key={article.article_id}>
-                                        <td>
-                                            <a
-                                                href={`/articles/${article.article_id}`}
-                                            >
-                                                {article.article_id}
-                                            </a>
-                                        </td>
-                                        <td>{article.title}</td>
-                                        <td>{article.publication_date}</td>
-                                        <td>{article.source}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </>
+                    <ArticleTable data={data} />
                 )}
             </div>
         );
