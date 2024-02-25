@@ -1,2 +1,3 @@
 Flask-Cors
 Flask
+mysql-connector-python

@@ -3,6 +3,10 @@ from flask_cors import CORS
 
 import json
 
+import mysql.connector
+from mysql.connector import Error
+
+
 app = Flask(__name__)
 CORS(app, origins="*")  # This enables CORS for all domains on all routes
 
@@ -51,6 +55,38 @@ def update_article(article_id):
     else:
         abort(404, description=f"Article with ID {article_id} not found")
 
+### Database stuff
+def create_database_connection():
+    """Create a database connection to a MySQL database"""
+    try:
+        conn = mysql.connector.connect(
+            host='127.0.0.1',
+            user='admin',
+            password='password',
+            database='GTD'
+        )
+        if conn.is_connected():
+            print("Successfully connected to the database")
+        return conn
+    except Error as e:
+        print(e)
+
+def create_table(conn):
+    """Create a table in the MySQL database"""
+    try:
+        cursor = conn.cursor()
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(50) UNIQUE NOT NULL,
+                password VARCHAR(255) NOT NULL,
+                is_admin BOOLEAN NOT NULL DEFAULT FALSE
+            );
+        """)
+        print("Table created successfully")
+    except Error as e:
+        print(e)
+
 
 if __name__ == '__main__':
     data = []
@@ -58,4 +94,14 @@ if __name__ == '__main__':
         data = json.load(f)
     f.close()
 
+    conn = create_database_connection()
+
+    if conn:
+        create_table(conn)
+        conn.close()
+
     app.run(host='0.0.0.0', debug=True)
+
+
+
+
