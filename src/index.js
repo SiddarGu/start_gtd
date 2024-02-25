@@ -3,11 +3,39 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './app';
 import reportWebVitals from './reportWebVitals';
+import Login from './login';
+
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: localStorage.getItem('isLoggedIn') === 'true'
+    };
+  }
+
+  handleLoginSuccess = () => {
+    localStorage.setItem('isLoggedIn', 'true');
+    this.setState({ isLoggedIn: true });
+  };
+
+  handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    this.setState({ isLoggedIn: false });
+  };
+
+  render() {
+    if (this.state.isLoggedIn) {
+      return <App onLogout={this.handleLogout} />;
+    } else {
+      return <Login onLoginSuccess={this.handleLoginSuccess} />;
+    }
+  }
+}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Main />
   </React.StrictMode>
 );
 

@@ -9,6 +9,9 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
   render() {
     return (
+      <div>
+        <button onClick={this.props.onLogout}>Logout</button>
+
       <BrowserRouter>
       <TopBar />
       <Routes>
@@ -17,6 +20,7 @@ class App extends React.Component {
         <Route path="/articles/:article_id" element={<ArticlePage />} />
       </Routes>
     </BrowserRouter>
+    </div>
   );
   } 
 }

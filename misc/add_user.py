@@ -62,12 +62,15 @@ def remove_user_from_database(username):
 
 def main():
     # Example usage
-    username = "user1"
+    username = "admin"
     password = "password"  # This should be collected securely, e.g., via input()
     hashed_password = encrypt_password(password)
     
     # Add user to database
-    add_user_to_database(username, hashed_password, is_admin=False)
+    add_user_to_database(username, hashed_password, is_admin=True)
+
+    # Remove user from database
+    #remove_user_from_database(username)
 
 if __name__ == "__main__":
     main()
