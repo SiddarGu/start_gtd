@@ -24,7 +24,6 @@ class Login extends React.Component {
     this.setState({ error: '' }); // Reset error message
 
     try {
-        console.log(this.state.password);
       const response = await axios.post('http://localhost:5000/login', {
         username: this.state.username,
         password: this.state.password,
@@ -38,7 +37,6 @@ class Login extends React.Component {
         this.setState({ error: "Login failed. Please try again." });
       }
     } catch (error) {
-        console.error(error);
       // Handle errors (e.g., network error, server error)
       this.setState({ error: "An error occurred. Please try again later." });
     }

@@ -128,7 +128,6 @@ def create_table(conn):
 def login_user():
     data = request.json
     username = data["username"]
-    print(data["password"])
     password = data["password"].encode("utf-8")  # Convert password to bytes
 
     conn = get_db_connection()
